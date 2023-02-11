@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=assistant
+Exec=com.afasha.assistant
+Icon=com.afasha.assistant
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true
