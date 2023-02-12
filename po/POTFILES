@@ -1,6 +1,6 @@
-data/com.iamafasha.assistant.desktop.in
-data/com.iamafasha.assistant.appdata.xml.in
-data/com.iamafasha.assistant.gschema.xml
+data/com.iamafasha.com.desktop.in
+data/com.iamafasha.com.appdata.xml.in
+data/com.iamafasha.com.gschema.xml
 src/main.c
 src/assistant-window.c
 src/assistant-window.ui

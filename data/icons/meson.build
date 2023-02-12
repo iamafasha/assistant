@@ -1,4 +1,4 @@
-application_id = 'com.iamafasha.assistant'
+application_id = 'com.iamafasha.com'
 
 scalable_dir = join_paths('hicolor', 'scalable', 'apps')
 install_data(

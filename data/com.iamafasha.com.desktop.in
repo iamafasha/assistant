@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=assistant
 Exec=assistant
-Icon=com.iamafasha.assistant
+Icon=com.iamafasha.com
 Terminal=false
 Type=Application
 Categories=GTK;

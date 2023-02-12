@@ -1,4 +1,4 @@
-/* window.js
+/* main.c
  *
  * Copyright 2023 iamafasha
  *
@@ -18,17 +18,25 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import GObject from 'gi://GObject';
-import Gtk from 'gi://Gtk';
-import Adw from 'gi://Adw';
+#include "config.h"
 
-export const AssistantWindow = GObject.registerClass({
-    GTypeName: 'AssistantWindow',
-    Template: 'resource:///com/afasha/assistant/window.ui',
-    InternalChildren: ['label'],
-}, class AssistantWindow extends Adw.ApplicationWindow {
-    constructor(application) {
-        super({ application });
-    }
-});
+#include <glib/gi18n.h>
 
+#include "assistant-application.h"
+
+int
+main (int   argc,
+      char *argv[])
+{
+	g_autoptr(AssistantApplication) app = NULL;
+	int ret;
+
+	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
+
+	app = assistant_application_new ("com.iamafasha.com", G_APPLICATION_FLAGS_NONE);
+	ret = g_application_run (G_APPLICATION (app), argc, argv);
+
+	return ret;
+}

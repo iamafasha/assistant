@@ -1,6 +1,6 @@
 desktop_file = i18n.merge_file(
-        input: 'com.iamafasha.assistant.desktop.in',
-       output: 'com.iamafasha.assistant.desktop',
+        input: 'com.iamafasha.com.desktop.in',
+       output: 'com.iamafasha.com.desktop',
          type: 'desktop',
        po_dir: '../po',
       install: true,
@@ -13,8 +13,8 @@ if desktop_utils.found()
 endif
 
 appstream_file = i18n.merge_file(
-        input: 'com.iamafasha.assistant.appdata.xml.in',
-       output: 'com.iamafasha.assistant.appdata.xml',
+        input: 'com.iamafasha.com.appdata.xml.in',
+       output: 'com.iamafasha.com.appdata.xml',
        po_dir: '../po',
       install: true,
   install_dir: join_paths(get_option('datadir'), 'appdata')
@@ -25,7 +25,7 @@ if appstream_util.found()
   test('Validate appstream file', appstream_util, args: ['validate', appstream_file])
 endif
 
-install_data('com.iamafasha.assistant.gschema.xml',
+install_data('com.iamafasha.com.gschema.xml',
   install_dir: join_paths(get_option('datadir'), 'glib-2.0/schemas')
 )
 

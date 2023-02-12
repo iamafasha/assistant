@@ -1,5 +1,5 @@
 {
-    "app-id" : "com.iamafasha.assistant",
+    "app-id" : "com.iamafasha.com",
     "runtime" : "org.gnome.Platform",
     "runtime-version" : "43",
     "sdk" : "org.gnome.Sdk",
@@ -30,7 +30,7 @@
             "sources" : [
                 {
                     "type" : "git",
-                    "url" : "https://github.com/iamafasha/assistant.git"
+                    "url" : "file:///home/iamafasha/Desktop/personal"
                 }
             ]
         }
