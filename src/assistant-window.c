@@ -28,7 +28,7 @@ struct _AssistantWindow
 
   /* Template widgets */
   GtkHeaderBar        *header_bar;
-  GtkLabel            *label;
+  GtkTextView            *main_text_view;
 };
 
 G_DEFINE_FINAL_TYPE (AssistantWindow, assistant_window, ADW_TYPE_APPLICATION_WINDOW)
@@ -40,7 +40,7 @@ assistant_window_class_init (AssistantWindowClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/com/iamafasha/com/assistant-window.ui");
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, header_bar);
-  gtk_widget_class_bind_template_child (widget_class, AssistantWindow, label);
+  gtk_widget_class_bind_template_child (widget_class, AssistantWindow, main_text_view);
 }
 
 static void
