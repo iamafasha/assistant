@@ -108,6 +108,25 @@ static void open_file_complete (GObject *source_object, GAsyncResult *result, As
 
   g_file_load_contents_finish (file, result, &contents, &length, NULL, &error);
 
+    // Query the display name for the file
+  g_autofree char *display_name = NULL;
+  g_autoptr (GFileInfo) info =
+    g_file_query_info (file,
+                       "standard::display-name",
+                       G_FILE_QUERY_INFO_NONE,
+                       NULL,
+                       NULL);
+    if (info != NULL)
+      {
+        display_name =
+          g_strdup (g_file_info_get_attribute_string (info, "standard::display-name"));
+      }
+    else
+      {
+        display_name = g_file_get_basename (file);
+      }
+
+
   // In case of error, print a warning to the standard error output
   if (error != NULL)
   {
@@ -133,5 +152,8 @@ static void open_file_complete (GObject *source_object, GAsyncResult *result, As
     GtkTextIter start;
     gtk_text_buffer_get_start_iter (buffer, &start);
     gtk_text_buffer_place_cursor (buffer, &start);
+
+  // Set the title using the display name
+  gtk_window_set_title (GTK_WINDOW (self), display_name);
 
  }
