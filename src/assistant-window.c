@@ -52,15 +52,28 @@ assistant_window_init (AssistantWindow *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 
+  //Open File
   g_autoptr (GSimpleAction) open_action = g_simple_action_new ("open",NULL);
   g_signal_connect (open_action, "activate", G_CALLBACK (assistant_window__open_file_dialog), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (open_action));
+
+  //Save file
+  g_autoptr (GSimpleAction) save_action = g_simple_action_new ("save-as", NULL);
+  g_signal_connect (save_action, "activate", G_CALLBACK (text_viewer_window__save_file_dialog), self);
+  g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (save_action));
 
   //Intiate cursor position
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (self->main_text_view);
   g_signal_connect (buffer,"notify::cursor-position", G_CALLBACK (text_viewer_window__update_cursor_position), self);
 }
 
+
+
+/**
+ *
+ * Opening a file
+ * 
+ */
 
 //Open the file picker
 static void
@@ -164,6 +177,18 @@ static void open_file_complete (GObject *source_object, GAsyncResult *result, As
   gtk_window_set_title (GTK_WINDOW (self), display_name);
 
  }
+
+/**
+ *
+ * Saving a file
+ * 
+ */
+static void
+text_viewer_window__save_file_dialog (GAction          *action G_GNUC_UNUSED, GVariant *param G_GNUC_UNUSED, AssistantWindow *self)
+{
+
+
+}
 
 static void
 text_viewer_window__update_cursor_position(GtkTextBuffer    *buffer,

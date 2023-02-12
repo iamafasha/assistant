@@ -30,8 +30,14 @@ G_DECLARE_FINAL_TYPE (AssistantWindow, assistant_window, ASSISTANT, WINDOW, AdwA
 
 G_END_DECLS
 
+//Opening a file
 static void assistant_window__open_file_dialog(GAction *action G_GNUC_UNUSED, GVariant *parameter G_GNUC_UNUSED, AssistantWindow *self);
 static void on_open_response(GtkNativeDialog  *native, int response, AssistantWindow *self);
 static void open_file (AssistantWindow *self, GFile *file);
 static void open_file_complete (GObject *source_object, GAsyncResult *result, AssistantWindow *self);
+
+// Saving a file
+static void text_viewer_window__save_file_dialog (GAction          *action G_GNUC_UNUSED, GVariant         *param G_GNUC_UNUSED, AssistantWindow *self);
+
+//Cursor position
 static void text_viewer_window__update_cursor_position(GtkTextBuffer *buffer, GParamSpec *pspec G_GNUC_UNUSED, AssistantWindow *self);
