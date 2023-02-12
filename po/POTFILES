@@ -1,6 +1,6 @@
-data/com.afasha.assistant.desktop.in
-data/com.afasha.assistant.appdata.xml.in
-data/com.afasha.assistant.gschema.xml
-src/main.js
-src/window.js
-src/window.ui
+data/com.iamafasha.assistant.desktop.in
+data/com.iamafasha.assistant.appdata.xml.in
+data/com.iamafasha.assistant.gschema.xml
+src/main.c
+src/assistant-window.c
+src/assistant-window.ui

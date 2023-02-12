@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="assistant">
-	<schema id="com.afasha.assistant" path="/com/afasha/assistant/">
+	<schema id="com.iamafasha.assistant" path="/com/iamafasha/assistant/">
 	</schema>
 </schemalist>
