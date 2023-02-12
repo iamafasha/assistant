@@ -29,3 +29,5 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (AssistantWindow, assistant_window, ASSISTANT, WINDOW, AdwApplicationWindow)
 
 G_END_DECLS
+
+static void assistant_window__open_file_dialog(GAction *action G_GNUC_UNUSED, GVariant *parameter G_GNUC_UNUSED, AssistantWindow *self);

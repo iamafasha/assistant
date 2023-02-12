@@ -49,4 +49,13 @@ static void
 assistant_window_init (AssistantWindow *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+  g_autoptr (GSimpleAction) open_action = g_simple_action_new ("open",NULL);
+  g_signal_connect (open_action, "activate", G_CALLBACK (assistant_window__open_file_dialog), self);
+  g_action_map_add_action(G_ACTION_MAP(self),G_ACTION (self));
+}
+
+static void
+assistant_window__open_file_dialog(GAction *action G_GNUC_UNUSED, GVariant *parameter G_GNUC_UNUSED, AssistantWindow *self)
+{
+
 }
