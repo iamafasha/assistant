@@ -30,6 +30,7 @@ struct _AssistantWindow
   GtkHeaderBar        *header_bar;
   GtkTextView         *main_text_view;
   GtkButton           *open_button;
+  GtkLabel            *cursor_pos;
 };
 
 G_DEFINE_FINAL_TYPE (AssistantWindow, assistant_window, ADW_TYPE_APPLICATION_WINDOW)
@@ -43,15 +44,21 @@ assistant_window_class_init (AssistantWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, header_bar);
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, main_text_view);
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, open_button);
+  gtk_widget_class_bind_template_child (widget_class, AssistantWindow, cursor_pos);
 }
 
 static void
 assistant_window_init (AssistantWindow *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+
   g_autoptr (GSimpleAction) open_action = g_simple_action_new ("open",NULL);
   g_signal_connect (open_action, "activate", G_CALLBACK (assistant_window__open_file_dialog), self);
   g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (open_action));
+
+  //Intiate cursor position
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer (self->main_text_view);
+  g_signal_connect (buffer,"notify::cursor-position", G_CALLBACK (text_viewer_window__update_cursor_position), self);
 }
 
 
@@ -157,3 +164,25 @@ static void open_file_complete (GObject *source_object, GAsyncResult *result, As
   gtk_window_set_title (GTK_WINDOW (self), display_name);
 
  }
+
+static void
+text_viewer_window__update_cursor_position(GtkTextBuffer    *buffer,
+                                            GParamSpec       *pspec G_GNUC_UNUSED,
+                                            AssistantWindow *self)
+{
+   int cursor_pos = 0;
+  // Retrieve the value of the "cursor-position" property
+  g_object_get (buffer, "cursor-position", &cursor_pos, NULL);
+   // Construct the text iterator for the position of the cursor
+  GtkTextIter iter;
+  gtk_text_buffer_get_iter_at_offset (buffer, &iter, cursor_pos);
+
+    // Set the new contents of the label
+  g_autofree char *cursor_str =
+    g_strdup_printf ("Ln %d, Col %d",
+                     gtk_text_iter_get_line (&iter) + 1,
+                     gtk_text_iter_get_line_offset (&iter) + 1);
+
+  gtk_label_set_text (self->cursor_pos, cursor_str);
+
+}

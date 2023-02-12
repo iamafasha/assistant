@@ -34,3 +34,4 @@ static void assistant_window__open_file_dialog(GAction *action G_GNUC_UNUSED, GV
 static void on_open_response(GtkNativeDialog  *native, int response, AssistantWindow *self);
 static void open_file (AssistantWindow *self, GFile *file);
 static void open_file_complete (GObject *source_object, GAsyncResult *result, AssistantWindow *self);
+static void text_viewer_window__update_cursor_position(GtkTextBuffer *buffer, GParamSpec *pspec G_GNUC_UNUSED, AssistantWindow *self);
