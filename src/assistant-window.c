@@ -5,7 +5,8 @@
 struct _AssistantWindow
 {
   AdwApplicationWindow  parent_instance;
-
+  //Create settings pointer
+  GSettings *settings;
   /* Template widgets */
   GtkHeaderBar        *header_bar;
   GtkTextView         *main_text_view;
@@ -20,6 +21,10 @@ assistant_window_class_init (AssistantWindowClass *klass)
 {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
+
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+  gobject_class->finalize = assistant_window_finalize;
+
   gtk_widget_class_set_template_from_resource (widget_class, "/com/iamafasha/assistant/assistant-window.ui");
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, header_bar);
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, main_text_view);
@@ -32,6 +37,8 @@ assistant_window_init (AssistantWindow *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 
+  //Settings
+  self->settings = g_settings_new ("com.iamafasha.assistant");
   //Open File
   g_autoptr (GSimpleAction) open_action = g_simple_action_new ("open",NULL);
   g_signal_connect (open_action, "activate", G_CALLBACK (assistant_window__open_file_dialog), self);
@@ -45,9 +52,21 @@ assistant_window_init (AssistantWindow *self)
   //Intiate cursor position
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (self->main_text_view);
   g_signal_connect (buffer,"notify::cursor-position", G_CALLBACK (assistant_window__update_cursor_position), self);
+  
+  g_settings_bind (self->settings, "window-width", G_OBJECT (self), "default-width", G_SETTINGS_BIND_DEFAULT);
+  g_settings_bind (self->settings, "window-height", G_OBJECT (self), "default-height", G_SETTINGS_BIND_DEFAULT);
+  g_settings_bind (self->settings, "window-maximized", G_OBJECT (self), "maximized", G_SETTINGS_BIND_DEFAULT);
+
 }
 
 
+static void
+assistant_window_finalize (GObject *gobject)
+{
+  AssistantWindow *self = ASSISTANT_WINDOW (gobject);
+  g_clear_object (&self->settings);
+  G_OBJECT_CLASS (assistant_window_parent_class)->finalize (gobject);
+}
 
 /**
  *

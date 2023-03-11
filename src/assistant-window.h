@@ -30,6 +30,9 @@ G_DECLARE_FINAL_TYPE (AssistantWindow, assistant_window, ASSISTANT, WINDOW, AdwA
 
 G_END_DECLS
 
+//SaveState
+static void assistant_window_finalize (GObject *gobject);
+
 //Opening a file
 static void assistant_window__open_file_dialog(GAction *action G_GNUC_UNUSED, GVariant *parameter G_GNUC_UNUSED, AssistantWindow *self);
 static void on_open_response(GtkNativeDialog  *native, int response, AssistantWindow *self);
