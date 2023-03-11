@@ -43,4 +43,4 @@ static void save_file (AssistantWindow *self, GFile *file);
 static void save_file_complete (GObject *source_object, GAsyncResult *result, gpointer user_data);
 
 //Cursor position
-static void text_viewer_window__update_cursor_position(GtkTextBuffer *buffer, GParamSpec *pspec G_GNUC_UNUSED, AssistantWindow *self);
+static void assistant_window__update_cursor_position(GtkTextBuffer *buffer, GParamSpec *pspec G_GNUC_UNUSED, AssistantWindow *self);

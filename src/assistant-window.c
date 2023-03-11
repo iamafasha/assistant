@@ -20,7 +20,7 @@ assistant_window_class_init (AssistantWindowClass *klass)
 {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/com/iamafasha/com/assistant-window.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/com/iamafasha/assistant/assistant-window.ui");
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, header_bar);
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, main_text_view);
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, open_button);
@@ -44,7 +44,7 @@ assistant_window_init (AssistantWindow *self)
 
   //Intiate cursor position
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (self->main_text_view);
-  g_signal_connect (buffer,"notify::cursor-position", G_CALLBACK (text_viewer_window__update_cursor_position), self);
+  g_signal_connect (buffer,"notify::cursor-position", G_CALLBACK (assistant_window__update_cursor_position), self);
 }
 
 
@@ -269,7 +269,7 @@ save_file_complete (GObject *source_object, GAsyncResult *result, gpointer user_
  *
  */
 static void
-text_viewer_window__update_cursor_position(GtkTextBuffer    *buffer,
+assistant_window__update_cursor_position(GtkTextBuffer    *buffer,
                                             GParamSpec       *pspec G_GNUC_UNUSED,
                                             AssistantWindow *self)
 {
