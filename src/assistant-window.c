@@ -12,6 +12,7 @@ struct _AssistantWindow
   GtkTextView         *main_text_view;
   GtkButton           *open_button;
   GtkLabel            *cursor_pos;
+  AdwToastOverlay     *toast_overlay;
 };
 
 G_DEFINE_FINAL_TYPE (AssistantWindow, assistant_window, ADW_TYPE_APPLICATION_WINDOW)
@@ -30,6 +31,7 @@ assistant_window_class_init (AssistantWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, main_text_view);
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, open_button);
   gtk_widget_class_bind_template_child (widget_class, AssistantWindow, cursor_pos);
+  gtk_widget_class_bind_template_child (widget_class, AssistantWindow, toast_overlay);
 }
 
 static void
@@ -150,6 +152,8 @@ static void open_file_complete (GObject *source_object, GAsyncResult *result, As
   if (error != NULL)
   {
     g_printerr ("Unable to open “%s”: %s\n", g_file_peek_path (file), error->message);
+     g_autofree char *msg = g_strdup_printf ("Unable to open “%s”", display_name);
+     adw_toast_overlay_add_toast (self->toast_overlay, adw_toast_new (msg));
     return;
   }
 
@@ -157,6 +161,8 @@ static void open_file_complete (GObject *source_object, GAsyncResult *result, As
   if (!g_utf8_validate (contents, length, NULL))
   {
     g_printerr ("Unable to load the contents of \"%s\": " " the file is not encoded with UTF-8\n", g_file_peek_path (file));
+      g_autofree char *msg = g_strdup_printf ("Invalid text encoding for “%s”", display_name);
+      adw_toast_overlay_add_toast (self->toast_overlay, adw_toast_new (msg));
     return;
   }
 
@@ -174,6 +180,10 @@ static void open_file_complete (GObject *source_object, GAsyncResult *result, As
 
   // Set the title using the display name
   gtk_window_set_title (GTK_WINDOW (self), display_name);
+
+  // Show a toast for the successful loading
+  g_autofree char *msg = g_strdup_printf ("Opened “%s”", display_name);
+  adw_toast_overlay_add_toast (self->toast_overlay, adw_toast_new (msg));
 
  }
 
@@ -236,14 +246,7 @@ save_file (AssistantWindow *self, GFile *file)
    g_autoptr(GBytes) bytes = g_bytes_new_take (text, strlen (text));
 
    // Start the asynchronous operation to save the data into the file
-   g_file_replace_contents_bytes_async(file,
-                                        bytes,
-                                        NULL,
-                                        FALSE,
-                                        G_FILE_CREATE_NONE,
-                                        NULL,
-                                        save_file_complete,
-                                        self);
+   g_file_replace_contents_bytes_async(file, bytes, NULL, FALSE, G_FILE_CREATE_NONE, NULL, save_file_complete, self);
 }
 
 
@@ -273,12 +276,18 @@ save_file_complete (GObject *source_object, GAsyncResult *result, gpointer user_
       display_name = g_file_get_basename (file);
     }
 
+  g_autofree char *msg = NULL;
   if (error != NULL)
-    {
-      g_printerr ("Unable to save “%s”: %s\n",
-                  display_name,
-                  error->message);
-    }
+  {
+    g_printerr ("Unable to save “%s”: %s\n", display_name, error->message);
+    msg = g_strdup_printf ("Unable to save as “%s”", display_name);
+  }else{
+    msg = g_strdup_printf ("Saved as “%s”", display_name);
+  }
+
+
+ //TODO: to fix this toast_overlay when saving
+  // adw_toast_overlay_add_toast (user_data, adw_toast_new (msg));
 }
 
 
