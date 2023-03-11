@@ -35,7 +35,7 @@ main (int   argc,
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	app = assistant_application_new ("com.iamafasha.com", G_APPLICATION_FLAGS_NONE);
+	app = assistant_application_new ("com.iamafasha.assistant", G_APPLICATION_FLAGS_NONE);
 	ret = g_application_run (G_APPLICATION (app), argc, argv);
 
 	return ret;

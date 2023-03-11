@@ -81,7 +81,7 @@ assistant_application_about_action (GSimpleAction *action,
 
   adw_show_about_window (window,
                          "application-name", "assistant",
-                         "application-icon", "com.iamafasha.com",
+                         "application-icon", "com.iamafasha.assistant",
                          "developer-name", "iamafasha",
                          "version", "0.1.0",
                          "developers", developers,
